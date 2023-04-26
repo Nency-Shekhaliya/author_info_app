@@ -68,7 +68,6 @@ class _Home_PageState extends State<Home_Page> {
                     children: [
                       Container(
                         height: 160,
-                        width: 250,
                         decoration: BoxDecoration(
                           color: Colors.lightGreen.shade50,
                           border: Border.all(
@@ -87,7 +86,6 @@ class _Home_PageState extends State<Home_Page> {
                       ),
                       Container(
                         height: 50,
-                        width: 200,
                         padding: EdgeInsets.only(left: 5),
                         alignment: Alignment.centerLeft,
                         decoration: BoxDecoration(
@@ -101,217 +99,189 @@ class _Home_PageState extends State<Home_Page> {
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  alldata[index].data()['Name'],
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.aclonica(fontSize: 12),
-                                ),
-                                Text(
-                                  "${alldata[index].data()['bookname']}",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                            Expanded(
+                              flex: 6,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    alldata[index].data()['Name'],
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.aclonica(fontSize: 12),
+                                  ),
+                                  Text(
+                                    "${alldata[index].data()['bookname']}",
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             ),
-                            PopupMenuButton(
-                              elevation: 10,
-                              onSelected: (val) async {
-                                if (val == "edit") {
-                                  authornamecontrtoller.text =
-                                      alldata[index]['Name'];
-                                  authorbookcontrtoller.text =
-                                      alldata[index]['bookname'];
-                                  alldata[index]['image'];
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        scrollable: true,
-                                        backgroundColor: Colors.green.shade50,
-                                        title: Text(
-                                          "Author Details",
-                                          style: GoogleFonts.aclonica(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20),
-                                        ),
-                                        content: Form(
-                                          key: updatekey,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  galleryimage();
-                                                },
-                                                child: CircleAvatar(
-                                                  backgroundColor:
-                                                      Colors.green.shade50,
-                                                  foregroundImage:
-                                                      (alldata[index].data()[
-                                                                  'image'] ==
-                                                              null)
-                                                          ? null
-                                                          : MemoryImage(
-                                                              base64Decode(
-                                                                  alldata[index]
-                                                                          .data()[
-                                                                      'image']),
-                                                            ),
-                                                  child: (alldata[index].data()[
-                                                              'image'] ==
-                                                          null)
-                                                      ? Text(
-                                                          alldata[index]
-                                                              .data()[
-                                                                  'bookname']
-                                                              .name[0],
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 25,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: Colors.white,
-                                                          ),
-                                                        )
-                                                      : null,
-                                                  radius: 30,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Container(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    "Author Name:",
-                                                    style: GoogleFonts.alegreya(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  )),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              TextFormField(
-                                                controller:
-                                                    authornamecontrtoller,
-                                                keyboardType:
-                                                    TextInputType.name,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                onSaved: (val) {
-                                                  authorname = val;
-                                                },
-                                                validator: (val) {
-                                                  if (val!.isEmpty) {
-                                                    return "Please enter title";
-                                                  } else {
-                                                    return null;
-                                                  }
-                                                },
-                                                decoration: InputDecoration(
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                    hintText: "Enter Name",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey)),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Container(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    "Author Book:",
-                                                    style: GoogleFonts.alegreya(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  )),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              TextFormField(
-                                                controller:
-                                                    authorbookcontrtoller,
-                                                keyboardType:
-                                                    TextInputType.name,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                onSaved: (val) {
-                                                  Bookname = val;
-                                                },
-                                                validator: (val) {
-                                                  if (val!.isEmpty) {
-                                                    return "Please enter book-name";
-                                                  } else {
-                                                    return null;
-                                                  }
-                                                },
-                                                decoration: InputDecoration(
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                    hintText: "Enter Book Name",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey)),
-                                              ),
-                                            ],
+                            Expanded(
+                              flex: 2,
+                              child: PopupMenuButton(
+                                elevation: 10,
+                                onSelected: (val) async {
+                                  if (val == "edit") {
+                                    authornamecontrtoller.text =
+                                        alldata[index]['Name'];
+                                    authorbookcontrtoller.text =
+                                        alldata[index]['bookname'];
+                                    alldata[index]['image'];
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          scrollable: true,
+                                          backgroundColor: Colors.green.shade50,
+                                          title: Text(
+                                            "Author Details",
+                                            style: GoogleFonts.aclonica(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
                                           ),
-                                        ),
-                                        actions: [
-                                          OutlinedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  authorname = null;
-                                                  Bookname = null;
-                                                  imagebytes = null;
-                                                });
-                                                authornamecontrtoller.clear();
-                                                authorbookcontrtoller.clear();
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                "Cancle",
-                                                style: GoogleFonts.aclonica(
-                                                    color: Colors.green),
-                                              )),
-                                          OutlinedButton(
-                                              onPressed: () async {
-                                                if (updatekey.currentState!
-                                                    .validate()) {
-                                                  updatekey.currentState!
-                                                      .save();
-                                                  Map<String, dynamic>
-                                                      updetedrecord = {
-                                                    "Name": authorname,
-                                                    "bookname": Bookname,
-                                                    "image": base64Encode(
-                                                        imagebytes!),
-                                                  };
-                                                  await Firebasedatastore_helper
-                                                      .firebasedatastore_helper
-                                                      .updaterecored(
-                                                          data: updetedrecord,
-                                                          id: alldata[index]
-                                                              .id);
-
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                          backgroundColor:
-                                                              Colors.green,
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                          content: Text(
-                                                              "Add successfully")));
-                                                  Navigator.pop(context);
-
+                                          content: Form(
+                                            key: updatekey,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    galleryimage();
+                                                  },
+                                                  child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.green.shade50,
+                                                    foregroundImage:
+                                                        (alldata[index].data()[
+                                                                    'image'] ==
+                                                                null)
+                                                            ? null
+                                                            : MemoryImage(
+                                                                base64Decode(alldata[
+                                                                            index]
+                                                                        .data()[
+                                                                    'image']),
+                                                              ),
+                                                    child: (alldata[index]
+                                                                    .data()[
+                                                                'image'] ==
+                                                            null)
+                                                        ? Text(
+                                                            alldata[index]
+                                                                .data()[
+                                                                    'bookname']
+                                                                .name[0],
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 25,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          )
+                                                        : null,
+                                                    radius: 30,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      "Author Name:",
+                                                      style:
+                                                          GoogleFonts.alegreya(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                    )),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                TextFormField(
+                                                  controller:
+                                                      authornamecontrtoller,
+                                                  keyboardType:
+                                                      TextInputType.name,
+                                                  textInputAction:
+                                                      TextInputAction.next,
+                                                  onSaved: (val) {
+                                                    authorname = val;
+                                                  },
+                                                  validator: (val) {
+                                                    if (val!.isEmpty) {
+                                                      return "Please enter title";
+                                                    } else {
+                                                      return null;
+                                                    }
+                                                  },
+                                                  decoration: InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                      hintText: "Enter Name",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey)),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      "Author Book:",
+                                                      style:
+                                                          GoogleFonts.alegreya(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                    )),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                TextFormField(
+                                                  controller:
+                                                      authorbookcontrtoller,
+                                                  keyboardType:
+                                                      TextInputType.name,
+                                                  textInputAction:
+                                                      TextInputAction.next,
+                                                  onSaved: (val) {
+                                                    Bookname = val;
+                                                  },
+                                                  validator: (val) {
+                                                    if (val!.isEmpty) {
+                                                      return "Please enter book-name";
+                                                    } else {
+                                                      return null;
+                                                    }
+                                                  },
+                                                  decoration: InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                      hintText:
+                                                          "Enter Book Name",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey)),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actions: [
+                                            OutlinedButton(
+                                                onPressed: () {
                                                   setState(() {
                                                     authorname = null;
                                                     Bookname = null;
@@ -319,36 +289,145 @@ class _Home_PageState extends State<Home_Page> {
                                                   });
                                                   authornamecontrtoller.clear();
                                                   authorbookcontrtoller.clear();
-                                                }
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  "Cancle",
+                                                  style: GoogleFonts.aclonica(
+                                                      color: Colors.green),
+                                                )),
+                                            OutlinedButton(
+                                                onPressed: () async {
+                                                  if (updatekey.currentState!
+                                                      .validate()) {
+                                                    updatekey.currentState!
+                                                        .save();
+                                                    Map<String, dynamic>
+                                                        updetedrecord = {
+                                                      "Name": authorname,
+                                                      "bookname": Bookname,
+                                                      "image": base64Encode(
+                                                          imagebytes!),
+                                                    };
+                                                    await Firebasedatastore_helper
+                                                        .firebasedatastore_helper
+                                                        .updaterecored(
+                                                            data: updetedrecord,
+                                                            id: alldata[index]
+                                                                .id);
+
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            backgroundColor:
+                                                                Colors.green,
+                                                            behavior:
+                                                                SnackBarBehavior
+                                                                    .floating,
+                                                            content: Text(
+                                                                "Add successfully")));
+                                                    Navigator.pop(context);
+
+                                                    setState(() {
+                                                      authorname = null;
+                                                      Bookname = null;
+                                                      imagebytes = null;
+                                                    });
+                                                    authornamecontrtoller
+                                                        .clear();
+                                                    authorbookcontrtoller
+                                                        .clear();
+                                                  }
+                                                },
+                                                child: Text(
+                                                  "Update",
+                                                  style: GoogleFonts.aclonica(
+                                                      color: Colors.green),
+                                                )),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                            "Are you sure you  want to delete data?",
+                                            style: GoogleFonts.alegreya(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "This will delete this data permanently, you cannot undo this action. ",
+                                                style: GoogleFonts.alegreya(
+                                                  fontSize: 16,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          actions: [
+                                            OutlinedButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
                                               },
                                               child: Text(
-                                                "Update",
-                                                style: GoogleFonts.aclonica(
-                                                    color: Colors.green),
-                                              )),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  await Firebasedatastore_helper
-                                      .firebasedatastore_helper
-                                      .deleterecored(id: alldata[index].id);
-                                }
-                              },
-                              iconSize: 20,
-                              itemBuilder: (BuildContext context) {
-                                return <PopupMenuEntry>[
-                                  PopupMenuItem(
-                                    child: Text("Edit"),
-                                    value: "edit",
-                                  ),
-                                  PopupMenuItem(
-                                    child: Text("Delete"),
-                                    value: "delete",
-                                  ),
-                                ];
-                              },
+                                                "Cancel",
+                                                style: GoogleFonts.alegreya(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                            OutlinedButton(
+                                              onPressed: () async {
+                                                await Firebasedatastore_helper
+                                                    .firebasedatastore_helper
+                                                    .deleterecored(
+                                                        id: alldata[index].id);
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                "Delete",
+                                                style: GoogleFonts.alegreya(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    icon:
+                                    const Icon(
+                                      Icons.delete_outlined,
+                                      color: Colors.red,
+                                    );
+                                  }
+                                },
+                                iconSize: 20,
+                                itemBuilder: (BuildContext context) {
+                                  return <PopupMenuEntry>[
+                                    PopupMenuItem(
+                                      child: Text("Edit"),
+                                      value: "edit",
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text("Delete"),
+                                      value: "delete",
+                                    ),
+                                  ];
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -356,8 +435,8 @@ class _Home_PageState extends State<Home_Page> {
                     ],
                   );
                 },
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   childAspectRatio: MediaQuery.of(context).size.width /
@@ -385,141 +464,157 @@ class _Home_PageState extends State<Home_Page> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          scrollable: true,
-          backgroundColor: Colors.green.shade50,
-          title: Text(
-            "Author Details",
-            style: GoogleFonts.aclonica(fontWeight: FontWeight.bold),
-          ),
-          content: Form(
-            key: insertkey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    galleryimage();
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Colors.green.shade50,
-                    child: Icon(Icons.camera_alt_outlined),
-                    radius: 40,
-                  ),
+        return StatefulBuilder(
+          builder:
+              (BuildContext context, void Function(void Function()) setState) {
+            return AlertDialog(
+              scrollable: true,
+              backgroundColor: Colors.green.shade50,
+              title: Text(
+                "Author Details",
+                style: GoogleFonts.aclonica(fontWeight: FontWeight.bold),
+              ),
+              content: Form(
+                key: insertkey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        ImagePicker Picker = ImagePicker();
+                        XFile? image = await Picker.pickImage(
+                            source: ImageSource.gallery, imageQuality: 40);
+                        imagebytes = await image!.readAsBytes();
+                        setState(() {});
+                      },
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: Colors.green.shade50,
+                        ),
+                        child: (imagebytes == null)
+                            ? Icon(Icons.camera_alt_outlined)
+                            : Image.memory(imagebytes!, fit: BoxFit.cover),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Author Name:",
+                          style:
+                              GoogleFonts.alegreya(fontWeight: FontWeight.bold),
+                        )),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: authornamecontrtoller,
+                      keyboardType: TextInputType.name,
+                      textInputAction: TextInputAction.next,
+                      onSaved: (val) {
+                        authorname = val;
+                      },
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return "Please enter title";
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Enter Name",
+                          hintStyle: TextStyle(color: Colors.grey)),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Author Book:",
+                          style:
+                              GoogleFonts.alegreya(fontWeight: FontWeight.bold),
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: authorbookcontrtoller,
+                      keyboardType: TextInputType.name,
+                      textInputAction: TextInputAction.next,
+                      onSaved: (val) {
+                        Bookname = val;
+                      },
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return "Please enter book-name";
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Enter Book Name",
+                          hintStyle: TextStyle(color: Colors.grey)),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                    alignment: Alignment.centerLeft,
+              ),
+              actions: [
+                OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        authorname = null;
+                        Bookname = null;
+                        imagebytes = null;
+                      });
+                      authornamecontrtoller.clear();
+                      authorbookcontrtoller.clear();
+                      Navigator.pop(context);
+                    },
                     child: Text(
-                      "Author Name:",
-                      style: GoogleFonts.alegreya(fontWeight: FontWeight.bold),
+                      "Cancle",
+                      style: GoogleFonts.aclonica(color: Colors.green),
                     )),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: authornamecontrtoller,
-                  keyboardType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
-                  onSaved: (val) {
-                    authorname = val;
-                  },
-                  validator: (val) {
-                    if (val!.isEmpty) {
-                      return "Please enter title";
-                    } else {
-                      return null;
-                    }
-                  },
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter Name",
-                      hintStyle: TextStyle(color: Colors.grey)),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                    alignment: Alignment.centerLeft,
+                OutlinedButton(
+                    onPressed: () async {
+                      if (insertkey.currentState!.validate()) {
+                        insertkey.currentState!.save();
+                        Map<String, dynamic> record = {
+                          "Name": authorname,
+                          "bookname": Bookname,
+                          "image": base64Encode(imagebytes!),
+                        };
+                        await Firebasedatastore_helper.firebasedatastore_helper
+                            .insertdata(data: record);
+
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.green,
+                            behavior: SnackBarBehavior.floating,
+                            content: Text("Add successfully")));
+                        Navigator.pop(context);
+
+                        setState(() {
+                          authorname = null;
+                          Bookname = null;
+                          imagebytes = null;
+                        });
+                        authornamecontrtoller.clear();
+                        authorbookcontrtoller.clear();
+                      }
+                    },
                     child: Text(
-                      "Author Book:",
-                      style: GoogleFonts.alegreya(fontWeight: FontWeight.bold),
+                      "Add",
+                      style: GoogleFonts.aclonica(color: Colors.green),
                     )),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  controller: authorbookcontrtoller,
-                  keyboardType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
-                  onSaved: (val) {
-                    Bookname = val;
-                  },
-                  validator: (val) {
-                    if (val!.isEmpty) {
-                      return "Please enter book-name";
-                    } else {
-                      return null;
-                    }
-                  },
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter Book Name",
-                      hintStyle: TextStyle(color: Colors.grey)),
-                ),
               ],
-            ),
-          ),
-          actions: [
-            OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    authorname = null;
-                    Bookname = null;
-                    imagebytes = null;
-                  });
-                  authornamecontrtoller.clear();
-                  authorbookcontrtoller.clear();
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "Cancle",
-                  style: GoogleFonts.aclonica(color: Colors.green),
-                )),
-            OutlinedButton(
-                onPressed: () async {
-                  if (insertkey.currentState!.validate()) {
-                    insertkey.currentState!.save();
-                    Map<String, dynamic> record = {
-                      "Name": authorname,
-                      "bookname": Bookname,
-                      "image": base64Encode(imagebytes!),
-                    };
-                    await Firebasedatastore_helper.firebasedatastore_helper
-                        .insertdata(data: record);
-
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: Colors.green,
-                        behavior: SnackBarBehavior.floating,
-                        content: Text("Add successfully")));
-                    Navigator.pop(context);
-
-                    setState(() {
-                      authorname = null;
-                      Bookname = null;
-                      imagebytes = null;
-                    });
-                    authornamecontrtoller.clear();
-                    authorbookcontrtoller.clear();
-                  }
-                },
-                child: Text(
-                  "Add",
-                  style: GoogleFonts.aclonica(color: Colors.green),
-                )),
-          ],
+            );
+          },
         );
       },
     );
